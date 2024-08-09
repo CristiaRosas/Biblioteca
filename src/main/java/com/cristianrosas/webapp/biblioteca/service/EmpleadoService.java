@@ -9,19 +9,14 @@ import com.cristianrosas.webapp.biblioteca.model.Empleado;
 import com.cristianrosas.webapp.biblioteca.repository.EmpleadoRepository;
 
 @Service
-public class EmpleadoService implements IEmpleadoService {
+public class EmpleadoService implements IEmpleadoService{
 
     @Autowired
-    EmpleadoRepository empleadoRepository;
+    private EmpleadoRepository empleadoRepository;
 
     @Override
-    public List<Empleado> listarEmpleados() {
-        return empleadoRepository.findAll();
-    }
-
-    @Override
-    public Empleado guardarEmpleado(Empleado empleado) {
-        return empleadoRepository.save(empleado);
+    public List<Empleado>listarEmpleados() {
+       return empleadoRepository.findAll();
     }
 
     @Override
@@ -30,9 +25,29 @@ public class EmpleadoService implements IEmpleadoService {
     }
 
     @Override
+    public Boolean guardarEmpleado(Empleado empleado) {
+        if (!verificarDpiDuplicado(empleado)) {
+            empleadoRepository.save(empleado);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
     public void eliminarEmpleado(Empleado empleado) {
         empleadoRepository.delete(empleado);
     }
 
+    public Boolean verificarDpiDuplicado(Empleado empleadoNuevo){
+        List<Empleado> empleados = listarEmpleados();
+        Boolean flag = false;
+        for (Empleado empleado : empleados) {
+            if (empleado.getDpi().equals(empleadoNuevo.getDpi())&& !empleado.getId().equals(empleadoNuevo.getId())) {
+                flag= true;//SI SE DUPLICO EL DPI
+            }
+        }
+        return flag;
 
+    }
 }

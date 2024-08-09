@@ -7,16 +7,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
-
+        
 @Entity
 @Data
 @ToString
 @Table(name = "Categorias")
 public class Categoria {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    //@NotNull(message = "El Nombre De La Categoria No Puede Ser Nulo")
     private String nombreCategoria;
+    
     
 }

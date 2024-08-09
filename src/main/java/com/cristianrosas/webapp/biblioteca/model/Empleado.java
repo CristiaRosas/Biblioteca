@@ -12,11 +12,12 @@ import lombok.Data;
 @Table(name = "Empleados")
 public class Empleado {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)    
     private Long id;
-    private String nombreEmpleado;
-    private String apellidoEmpleado;
-    private String telefonoEmpleado;
-    private String direccionEmpleado;
+    private String nombre;
+    private String apellido;
+    private String telefono;
+    private String direccion;
     private String dpi;
+   
 }
