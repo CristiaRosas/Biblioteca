@@ -46,11 +46,11 @@ public class ClienteController {
     public ResponseEntity<Map<String, String>> agregarCliente(@RequestBody Cliente cliente){
         Map<String, String> response = new HashMap<>();
         
-        try { //Bien
+        try { 
             clienteService.guardarCliente(cliente);
             response.put("message", "Cliente creado con éxito!");
             return ResponseEntity.ok(response);
-        } catch (Exception e) { //Mal
+        } catch (Exception e) { 
             response.put("message", "Error!");
             response.put("err", "Hubo un error al crear el cliente!");
             return ResponseEntity.badRequest().body(response);
