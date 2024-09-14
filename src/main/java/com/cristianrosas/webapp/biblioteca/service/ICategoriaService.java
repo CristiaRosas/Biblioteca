@@ -7,11 +7,11 @@ import com.cristianrosas.webapp.biblioteca.model.Categoria;
 public interface ICategoriaService {
     public List<Categoria> listarCategorias();
 
-    public Categoria buscarCategoriaPorId(long id);
+    public Categoria buscarCategoriaPorId(Long id);
 
     public Boolean guardarCategoria(Categoria categoria);
 
     public void eliminarCategoria(Categoria categoria);
 
-    public Boolean verificarCategoriaDuplicada(Categoria categorianNueva);    
+    public Boolean verificarCategoriaDuplicado(Categoria newCategoria);
 }

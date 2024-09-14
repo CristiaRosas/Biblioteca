@@ -2,7 +2,6 @@ package com.cristianrosas.webapp.biblioteca.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,12 +11,11 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "libros")
+@Table(name = "Libros")
 public class Libro {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     private String isbn;
     private String nombre;
     @Column(columnDefinition = "TEXT")
@@ -27,7 +25,7 @@ public class Libro {
     private Boolean disponibilidad;
     private String numeroEstanteria;
     private String cluster;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Categoria categoria;
 
 }

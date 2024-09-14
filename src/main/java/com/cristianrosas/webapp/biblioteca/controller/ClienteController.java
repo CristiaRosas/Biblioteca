@@ -7,88 +7,86 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cristianrosas.webapp.biblioteca.model.Cliente;
 import com.cristianrosas.webapp.biblioteca.service.ClienteService;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+
 @Controller
 @RestController
-@RequestMapping("")
+@RequestMapping(value = "")
 public class ClienteController {
 
     @Autowired
-    ClienteService clienteService;
+    private ClienteService clienteService;
 
     @GetMapping("/clientes")
-    public List<Cliente> listarClientes(){
+    public List<Cliente> listarClientes() {
         return clienteService.listarClientes();
     }
 
     @GetMapping("/cliente")
-    public ResponseEntity<Cliente> buscarClientePorDpi(@RequestParam Long dpi){
-        try{
-            Cliente cliente = clienteService.buscarClientePorDpi(dpi);
-            return ResponseEntity.ok(cliente);
-        }catch(Exception e){
+    public ResponseEntity<Cliente> buscarClientePorId(@RequestParam Long id){
+        try {
+            return ResponseEntity.ok(clienteService.buscarClientePorId(id));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
         }
     }
 
     @PostMapping("/cliente")
-    public ResponseEntity<Map<String, String>> agregarCliente(@RequestBody Cliente cliente){
-        Map<String, String> response = new HashMap<>();
-        
-        try { 
+    public ResponseEntity<Map<String,String>> agregarCliente(@RequestBody Cliente cliente){
+        Map<String,String> response =  new HashMap<>();
+        try {
             clienteService.guardarCliente(cliente);
-            response.put("message", "Cliente creado con éxito!");
+            response.put("message", "Cliente agregado con éxito");
             return ResponseEntity.ok(response);
-        } catch (Exception e) { 
-            response.put("message", "Error!");
-            response.put("err", "Hubo un error al crear el cliente!");
+        } catch (Exception e) {
+            response.put("err", "No se ha podido agregar el cliente");
             return ResponseEntity.badRequest().body(response);
         }
     }
 
     @PutMapping("/cliente")
-    public ResponseEntity<Map<String, String>> editarCliente(@RequestParam Long dpi, @RequestBody Cliente clienteNuevo){
+    public ResponseEntity<Map<String, String>> editarCliente(@RequestParam Long id,
+            @RequestBody Cliente newCliente) {
         Map<String, String> response = new HashMap<>();
-        
         try {
-            Cliente cliente = clienteService.buscarClientePorDpi(dpi);
-            cliente.setNombreCliente(clienteNuevo.getNombreCliente());
-            cliente.setApellidoCliente(clienteNuevo.getApellidoCliente());
-            cliente.setTelefonoCliente(clienteNuevo.getTelefonoCliente());
-            clienteService.guardarCliente(cliente);
-            response.put("message", "El cliente se ha modificado con éxito!");
+            Cliente oldCliente = clienteService.buscarClientePorId(id);
+            oldCliente.setNombre(newCliente.getNombre());
+            oldCliente.setApellido(newCliente.getApellido());
+            oldCliente.setTelefono(newCliente.getTelefono());
+            clienteService.guardarCliente(oldCliente);
+            response.put("message","El cliente se edito con éxito");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            response.put("message", "Error");
-            response.put("err", "Hubo un error al intentar modificar el cliente!");
+            response.put("err","El cliente no se pudo editar");
             return ResponseEntity.badRequest().body(response);
         }
+
     }
 
     @DeleteMapping("/cliente")
-    public ResponseEntity<Map<String, String>> eliminarCliente(@RequestParam Long dpi){
-        Map<String, String> response = new HashMap<>();
-        
+    public ResponseEntity<Map<String,String>> eliminarCliente(@RequestParam Long id){
+        Map<String,String> response = new HashMap<>();
         try {
-            Cliente cliente = clienteService.buscarClientePorDpi(dpi);
+            Cliente cliente = clienteService.buscarClientePorId(id);
             clienteService.eliminarCliente(cliente);
-            response.put("message", "El cliente se ha eliminado con éxito!");
+            response.put("message", "Cliente Eliminado con éxito");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            response.put("message", "Error");
-            response.put("err", "No se ha podido eliminar el cliente!");
+            response.put("err", "No se pudo eliminar el cliente");
             return ResponseEntity.badRequest().body(response);
         }
     }
 }
+        

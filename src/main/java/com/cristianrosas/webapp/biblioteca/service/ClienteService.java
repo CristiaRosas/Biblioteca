@@ -15,23 +15,24 @@ public class ClienteService implements IClienteService{
     private ClienteRepository clienteRepository;
 
     @Override
-    public List<Cliente> listarClientes() {
+    public List<Cliente> listarClientes(){
         return clienteRepository.findAll();
     }
 
     @Override
-    public Cliente buscarClientePorDpi(Long dpi) {
-        return clienteRepository.findById(dpi).orElse(null);
+    public Cliente buscarClientePorId(Long id){
+        return clienteRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Cliente guardarCliente(Cliente cliente) {
+    public Cliente guardarCliente(Cliente cliente){
         return clienteRepository.save(cliente);
     }
 
     @Override
-    public void eliminarCliente(Cliente cliente) {
+    public void eliminarCliente(Cliente cliente){
         clienteRepository.delete(cliente);
     }
+    
 
 }

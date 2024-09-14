@@ -3,11 +3,8 @@ package com.cristianrosas.webapp.biblioteca.controller.FXController;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.cristianrosas.webapp.biblioteca.model.Categoria;
-import com.cristianrosas.webapp.biblioteca.service.CategoriaService;
 import com.cristianrosas.webapp.biblioteca.system.Main;
 
 import javafx.event.ActionEvent;
@@ -19,31 +16,29 @@ import lombok.Setter;
 @Component
 public class IndexController implements Initializable {
 
+    @FXML
+    MenuItem btnCategorias, btnClientes, btnEmpleados, btnLibros,btnPrestamos;
+
     @Setter
     private Main stage;
 
-    @FXML
-    MenuItem btnCategorias,btnClientes,btnLibros,btnEmpleados,btnPrestamos;
-
     @Override
-    public void initialize(URL url, ResourceBundle resources) {
+    public void initialize(URL arg0, ResourceBundle arg1) {
 
     }
 
     @FXML
-    public void handleButtonAction(ActionEvent event){
-        if(event.getSource() == btnCategorias){
-
+    public void handleButtonAction(ActionEvent event) throws Exception {
+        if (event.getSource() == btnCategorias) {
+            stage.CategoriaView();
         }else if(event.getSource() == btnClientes){
-
+            stage.ClienteView();
         }else if(event.getSource() == btnEmpleados){
-
+            stage.EmpleadoView();
         }else if(event.getSource() == btnLibros){
-
+            stage.LibroView();
         }else if(event.getSource() == btnPrestamos){
             
         }
     }
-
-    
 }
